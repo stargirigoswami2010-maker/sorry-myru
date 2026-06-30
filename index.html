@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Sorry - My Dearest</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Poppins:wght@300;400;500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
+
+        :root {
+            --primary-love-color: #ff4d6d;
+            --secondary-love-color: #ff758f;
+            --background-color: #ffe5ec;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-radius: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--background-color);
+            background-image: 
+                radial-gradient(at 10% 20%, hsla(339, 100%, 85%, 1) 0px, transparent 50%),
+                radial-gradient(at 80% 0%, hsla(339, 100%, 75%, 1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(339, 100%, 90%, 1) 0px, transparent 50%),
+                radial-gradient(at 80% 50%, hsla(339, 100%, 80%, 1) 0px, transparent 50%);
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #music-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 1000;
+            opacity: 0.8;
+        }
+        #music-toggle span { color: #ff4d6d; font-size: 24px; }
+
+        .wave { position: absolute; bottom: -50px; left: 0; width: 100%; height: 150px; opacity: 0.15; z-index: 1; }
+        .wave wave1 {
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1600 120" xmlns="http://www.w3.org/2000/svg"><path d="M0,105.1C0,105.1,121.2,34.4,242.4,34.4s121.2,70.7,242.4,70.7s121.2-70.7,242.4-70.7s121.2,70.7,242.4,70.7s121.2-70.7,242.4-70.7s121.2,70.7,242.4,70.7V120H0V105.1z" fill="%23fff"/></svg>') repeat-x;
+            background-size: 1600px 120px; height: 100%; position: absolute; width: 3200px; animation: move-wave 10s linear infinite;
+        }
+        @keyframes move-wave { 0% { transform: translateX(0); } 100% { transform: translateX(-1600px); } }
+
+        .blob { position: absolute; background: rgba(255, 255, 255, 0.4); border-radius: 50%; filter: blur(4px); opacity: 0.15; }
+
+        #content-wrapper {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            z-index: 100; display: flex; justify-content: center; align-items: center;
+            width: 100%; padding: 20px;
+        }
+
+        #main-card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            max-width: 420px; width: 100%; border-radius: var(--border-radius);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 35px 25px; text-align: center; display: none;
+        }
+
+        #main-card.show { display: block; animation: card-appear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes card-appear { 0% { opacity: 0; transform: scale(0.9) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+
+        #entry-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            z-index: 500; display: flex; justify-content: center; align-items: center; flex-direction: column;
+        }
+        #entry-overlay p { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ff4d6d; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        #entry-overlay button {
+            background: linear-gradient(45deg, var(--primary-love-color), var(--secondary-love-color));
+            border: none; padding: 12px 35px; border-radius: 50px; color: white; font-size: 1.1rem;
+            margin-top: 25px; cursor: pointer;
+        }
+
+        .photo-frame {
+            width: 240px; height: 320px; border-radius: var(--border-radius); overflow: hidden;
+            position: relative; margin: 0 auto 25px auto;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .photo-frame img {
+            width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; transition: opacity 0.8s ease-in-out;
+        }
+        .photo-frame img.hide { opacity: 0; }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 2.8rem; color: #ff4d6d; margin-bottom: 15px; }
+        p.apology-text { font-size: 1.05rem; color: #4a4a4a; line-height: 1.6; margin-bottom: 30px; font-weight: 500; padding: 0 10px; }
+        #forgive-btn {
+            background: linear-gradient(45deg, var(--primary-love-color), var(--secondary-love-color));
+            color: white; border: none; padding: 12px 40px; font-size: 1rem;
+            border-radius: 50px; cursor: pointer;
+        }
+
+        .interactive-heart { position: absolute; color: #ff758f; font-size: 24px; pointer-events: none; animation: floatUp 4s linear forwards; z-index: 200; }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.8); opacity: 1; }
+            100% { transform: translateY(-80vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+        .confetti { position: absolute; background-color: #ff4d6d; border-radius: 50%; animation: fall 3s linear forwards; z-index: 300; }
+        @keyframes fall { 0% { transform: translateY(-20px); } 100% { transform: translateY(105vh); opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <div id="entry-overlay">
+        <p>I am Sorry, Myruuu... ❤️</p>
+        <button id="enter-btn">❤️ Tap to Open</button>
+    </div>
+
+    <button id="music-toggle">
+        <span class="material-symbols-outlined">music_note</span>
+    </button>
+    
+    <audio id="background-music" loop>
+        <source src="be-intehaan.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="wave"><wave1></wave1></div>
+
+    <div id="content-wrapper">
+        <div id="main-card">
+            
+            <div class="photo-frame">
+                <img src="image_8.png" alt="Pic 1" class="slideshow-image">
+                <img src="image_7.png" alt="Pic 2" class="slideshow-image hide">
+                <img src="image_9.png" alt="Pic 3" class="slideshow-image hide">
+            </div>
+
+            <h1>I'm So Sorry... 🥺</h1>
+
+            <!-- TUMHARA RECENT MESSAGE CHIPKA DIYA HAI EDUM MAST TARIKESI -->
+            <p class="apology-text">
+                Soryyy na myruuuuuu babyyy yrr mujhe pta h apko nhi pasand hattt pee glti se boldia thaaaa ajkee bad pakka nhi bolungaaa is bari maf krdooo bassss plizzzzzzzzz naraz mt rho babyyy🥺❤️✨
+            </p>
+
+            <button id="forgive-btn">Maaf Kiya? 🥺</button>
+        </div>
+    </div>
+
+    <script>
+        const entryOverlay = document.getElementById('entry-overlay');
+        const enterBtn = document.getElementById('enter-btn');
+        const mainCard = document.getElementById('main-card');
+        const backgroundMusic = document.getElementById('background-music');
+        const musicToggle = document.getElementById('music-toggle');
+
+        enterBtn.addEventListener('click', () => {
+            entryOverlay.style.opacity = '0';
+            setTimeout(() => {
+                entryOverlay.style.display = 'none';
+                mainCard.classList.add('show');
+                backgroundMusic.play().catch(() => console.log('Playback blocked'));
+            }, 500);
+        });
+
+        musicToggle.addEventListener('click', () => {
+            if (backgroundMusic.paused) { backgroundMusic.play(); } else { backgroundMusic.pause(); }
+        });
+
+        function createBlob() {
+            const blob = document.createElement('div');
+            blob.classList.add('blob');
+            blob.style.width = Math.random() * 100 + 40 + 'px';
+            blob.style.height = blob.style.width;
+            blob.style.left = Math.random() * 100 + 'vw';
+            blob.style.top = Math.random() * 100 + 'vh';
+            document.body.appendChild(blob);
+            setTimeout(() => blob.remove(), 7000);
+        }
+        setInterval(createBlob, 2000);
+
+        const images = document.querySelectorAll('.slideshow-image');
+        let index = 0;
+        setInterval(() => {
+            images[index].classList.add('hide');
+            index = (index + 1) % images.length;
+            images[index].classList.remove('hide');
+        }, 3500);
+
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('interactive-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.bottom = '-10px';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        setInterval(spawnHeart, 600);
+
+        const forgiveBtn = document.getElementById('forgive-btn');
+        forgiveBtn.addEventListener('click', () => {
+            forgiveBtn.textContent = 'Thank You My Queen! 🥰';
+            forgiveBtn.disabled = true;
+
+            for (let i = 0; i < 100; i++) {
+                const conf = document.createElement('div');
+                conf.classList.add('confetti');
+                conf.style.width = Math.random() * 8 + 4 + 'px';
+                conf.style.height = conf.style.width;
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.top = '-20px';
+                conf.style.animationDuration = Math.random() * 2 + 1.5 + 's';
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 3500);
+            }
+        });
+    </script>
+</body>
+</html>
